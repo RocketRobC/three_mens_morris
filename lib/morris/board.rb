@@ -1,28 +1,32 @@
 module Morris
   class PlacementError < StandardError; end
 
-  class Morris
+  class Board
     PLACEHOLDER = PH = 'x'.freeze
 
-    attr_reader :board
+    attr_accessor :cells
 
     def initialize
-      @board = [[PH, PH, PH], [PH, PH, PH], [PH, PH, PH]]
+      @cells = [[PH, PH, PH], [PH, PH, PH], [PH, PH, PH]]
+    end
+
+    def view(visitor)
+      visitor.visit(self)
     end
 
     def place_piece(player, position)
       x, y = position
-      board[x][y] = player unless location_occupied?(x, y)
+      cells[x][y] = player unless location_occupied?(x, y)
     end
 
     def remove_piece(player, position)
       x, y = position
-      return board[x][y] = PH if board[x][y] == player
+      return cells[x][y] = PH if cells[x][y] == player
       raise PlacementError, "You don't have a piece in that position"
     end
 
     def count_pieces(player)
-      board.flatten.count { |p| p == player }
+      cells.flatten.count { |p| p == player }
     end
 
     def check_for_win
@@ -35,12 +39,12 @@ module Morris
     private
 
     def location_occupied?(x, y)
-      return false if board[x][y] == PH
+      return false if cells[x][y] == PH
       raise PlacementError, "There's already a piece in that position"
     end
 
     def check_rows
-      board.any? do |row|
+      cells.any? do |row|
         row.all? { |i| i == row[0] unless row[0] == PH }
       end
     end
@@ -52,18 +56,18 @@ module Morris
     end
 
     def check_lr_diag
-      arr = (0..2).map { |i| board[i][i] }
+      arr = (0..2).map { |i| cells[i][i] }
       arr.all? { |i| i == arr[0] unless arr[0] == PH }
     end
 
     def check_rl_diag
-      arr = (0..2).map { |i| board[i][2 - i] }
+      arr = (0..2).map { |i| cells[i][2 - i] }
       arr.all? { |i| i == arr[0] unless arr[0] == PH }
     end
 
     def mapped_cols
       (0..2).map do |i|
-        board.map { |row| row[i] }
+        cells.map { |row| row[i] }
       end
     end
   end

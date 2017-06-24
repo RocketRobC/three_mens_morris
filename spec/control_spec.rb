@@ -6,7 +6,11 @@ module Morris
     it 'accepts a turn from a player' do
       control = Control.new
       expect(STDIN).to receive(:gets) { 'a1' }
-      expect(control.play(p1)).to eq [['p1', 'x', 'x'], ['x','x','x'], ['x','x','x']]
+      expect(control.play(p1)).to eq <<EOM
+| 1 |   |   |
+|   |   |   |
+|   |   |   |
+EOM
     end
   end
 end

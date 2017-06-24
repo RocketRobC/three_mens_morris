@@ -1,20 +1,20 @@
 module Morris
-  describe Morris do
+  describe Board do
     before(:each) do
-      @morris = Morris.new
+      @morris = Board.new
     end
 
-    it 'places a player identifier in a board location' do
+    it 'places a player identifier in a board cell' do
       @morris.place_piece('p1', [1, 1])
-      expect(@morris.board).to eq([['x', 'x', 'x'], ['x', 'p1', 'x'], ['x', 'x', 'x']])
+      expect(@morris.cells).to eq([['x', 'x', 'x'], ['x', 'p1', 'x'], ['x', 'x', 'x']])
     end
 
-    it 'removes a piece from the board' do
+    it 'removes a piece from the cell' do
       @morris.place_piece('p1', [0, 0])
       @morris.place_piece('p1', [1, 1])
       @morris.remove_piece('p1', [1, 1])
       result = [['p1', 'x', 'x'], ['x', 'x', 'x'], ['x', 'x', 'x']]
-      expect(@morris.board).to eq result
+      expect(@morris.cells).to eq result
     end
 
     it 'counts the player pieces on the board' do
