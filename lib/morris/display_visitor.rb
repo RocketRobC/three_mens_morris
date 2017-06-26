@@ -2,23 +2,28 @@ module Morris
   class DisplayVisitor
     CELLS = { 'x' => '|   ', 'p1' => '| 1 ', 'p2' => '| 2 ' }
 
-    def visit(board)
-      cells = ''
-      board.cells.each do |row|
-        row.each do |marker|
-          cells << cell(marker)
-        end
-        cells << '|'
-        cells << "\n"
-      end
-      print cells
-      cells
+    def board
+      @board ||= ''
+    end
+
+    def print_board
+      print board
+      board
+    end
+
+    def print_cell(cell)
+      board << translate(cell)
+    end
+
+    def new_line
+      board << '|'
+      board << "\n"
     end
 
     private
 
-    def cell(marker)
-      CELLS[marker]
+    def translate(cell)
+      CELLS[cell]
     end
   end
 end

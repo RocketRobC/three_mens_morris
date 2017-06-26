@@ -11,7 +11,13 @@ module Morris
     end
 
     def view(visitor)
-      visitor.visit(self)
+      cells.each do |row|
+        row.each do |cell|
+          visitor.print_cell(cell)
+        end
+        visitor.new_line
+      end
+      visitor.print_board
     end
 
     def place_piece(player, position)
