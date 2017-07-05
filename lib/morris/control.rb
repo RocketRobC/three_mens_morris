@@ -2,8 +2,9 @@ module Morris
   class Control
     attr_reader :win
 
-    def initialize(game = Board.new)
+    def initialize(visitor = DisplayVisitor, game = Board.new)
       @game = game
+      @display = visitor
     end
 
     def play(player)
@@ -13,7 +14,7 @@ module Morris
     end
 
     def print_board
-      @game.view(DisplayVisitor.new)
+      @game.view(@display.new)
     end
 
     private

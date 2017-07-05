@@ -1,7 +1,10 @@
 $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 require 'morris'
 
-control = Morris::Control.new
+display_options = { 'terminal' => Morris::DisplayVisitor, 'web' => Morris::WebVisitor }
+display = ARGV[0]
+
+control = Morris::Control.new(display_options[display])
 players = 'p1', 'p2'
 
 puts "Welcome to Three Men's Morris"
