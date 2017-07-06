@@ -1,14 +1,10 @@
 %h1 Morris
-%table
-  %tr
-    %td#a1 A1
-    %td#a2 A2
-    %td#a3 A3
-  %tr
-    %td#b1 B1
-    %td#b2 B2
-    %td#b3 B3
-  %tr
-    %td#c1 C1
-    %td#c2 C2
-    %td#c3 C3
+%label{ for: 'p1-move' }Player 1
+%input{ type: 'text', id: 'p1-move', name: 'p1-move' }
+%input{ type: 'submit', value: 'Move', id: 'p1-play', name: 'p1-play' }
+%label{ for: 'p2-move' }Player 2
+%input{ type: 'text', id: 'p2-move', name: 'p2-move' }
+%input{ type: 'submit', value: 'Move', id: 'p2-play', name: 'p2-play' }
+%br
+%br
+=haml(:board, id: 'board', layout: false)

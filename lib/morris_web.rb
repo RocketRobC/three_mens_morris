@@ -5,10 +5,16 @@ require 'morris'
 class MorrisWeb < Sinatra::Base
   configure do
     set :views, File.join(File.dirname(__FILE__), '../views')
+    set :public_dir, File.join(File.dirname(__FILE__), '../public')
+    set :control, Morris::Control.new(Morris::WebVisitor)
   end
 
   get '/' do
     haml :index
+  end
+
+  post '/move' do
+    control.play(params[:cell])
   end
 
   get '/board' do
