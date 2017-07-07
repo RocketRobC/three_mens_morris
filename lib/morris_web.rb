@@ -10,26 +10,11 @@ class MorrisWeb < Sinatra::Base
   end
 
   get '/' do
-    haml :index
+    haml :index, locals: { control: settings.control }
   end
 
   post '/move' do
-    control.play(params[:cell])
-  end
-
-  get '/board' do
-    headers 'Content-Type' => 'text/event-stream'
-    stream do |board|
-      board_cells.each do |cell|
-        board << "data: #{cell}\n"
-      end
-      board << "\n"
-    end
-  end
-
-  def board_cells
-
-
+    settings.control.play(params[:cell])
   end
 
   run! if app_file == $PROGRAM_NAME

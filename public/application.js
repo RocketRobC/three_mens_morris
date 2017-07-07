@@ -4,7 +4,7 @@ $(document).ready(function() {
                         'cell' : $('#p1-move').val() });
     location.reload();
   });
-  $('#p2-move').click(function() {
+  $('#p2-play').click(function() {
     $.post('/move', { 'player' : 'p2',
                         'cell' : $('#p2-move').val() });
     location.reload();
