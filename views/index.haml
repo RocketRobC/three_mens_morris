@@ -7,4 +7,5 @@
 %input{ type: 'submit', value: 'Move', id: 'p2-play', name: 'p2-play' }
 %br
 %br
+%h3= control.io_output
 =haml(:board, id: 'board', layout: false, locals: { control: control })

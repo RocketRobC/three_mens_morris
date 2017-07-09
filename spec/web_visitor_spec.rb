@@ -7,7 +7,7 @@ module Morris
     end
 
     def result
-      '<table><tr><td> </td><td> 1 </td><td> 2 </td></tr><tr><td> </td><td> 1 </td><td> 2 </td></tr><tr><td> </td><td> 1 </td><td> 2 </td></tr></table>'
+      '<table><tr><td> - </td><td> 1 </td><td> 2 </td></tr><tr><td> - </td><td> 1 </td><td> 2 </td></tr><tr><td> - </td><td> 1 </td><td> 2 </td></tr></table>'
       end
   end
 end

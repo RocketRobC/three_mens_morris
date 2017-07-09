@@ -6,7 +6,7 @@ module Morris
     it 'accepts a turn from a player' do
       control = Control.new
       expect(STDIN).to receive(:gets) { 'a1' }
-      expect(control.play(p1)).to eq <<EOM
+      expect(control.play(p1, PositionParser.new(TerminalInput.new))).to eq <<EOM
 | 1 |   |   |
 |   |   |   |
 |   |   |   |

@@ -5,11 +5,11 @@ module Morris
     LETTERS = { 'A' => 0, 'B' => 1, 'C' => 2 }
 
     def initialize(input)
-      @position = input.gets.chomp
+      @input = input
     end
 
     def get_position
-      @position.split(//).map do |c|
+      @input.from_player.split(//).map do |c|
         c.to_i.zero? ? parse_letter(c) : parse_number(c)
       end
     end

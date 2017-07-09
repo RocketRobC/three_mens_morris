@@ -6,7 +6,8 @@ class MorrisWeb < Sinatra::Base
   configure do
     set :views, File.join(File.dirname(__FILE__), '../views')
     set :public_dir, File.join(File.dirname(__FILE__), '../public')
-    set :control, Morris::Control.new(Morris::WebVisitor)
+    set :control, Morris::Control.new(Morris::WebVisitor,
+                                      Morris::WebIO.new)
   end
 
   get '/' do
@@ -14,7 +15,15 @@ class MorrisWeb < Sinatra::Base
   end
 
   post '/move' do
-    settings.control.play(params[:cell])
+    settings.control.play(params[:player], position)
+  end
+
+  def position
+    Morris::PositionParser.new(from_player)
+  end
+
+  def from_player
+    OpenStruct.new(from_player: params[:cell])
   end
 
   run! if app_file == $PROGRAM_NAME

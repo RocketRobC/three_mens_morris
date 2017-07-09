@@ -1,15 +1,18 @@
 module Morris
   class Control
-    attr_reader :win
+    attr_reader :win, :io_output
 
-    def initialize(visitor = DisplayVisitor, game = Board.new)
+    def initialize(visitor = DisplayVisitor,
+                   io = TerminalIO.new,
+                   game = Board.new)
       @game = game
       @display = visitor
+      @io = io
     end
 
-    def play(player)
+    def play(player, input)
       remove_piece(player) if piece_limit_reached?(player)
-      turn(player)
+      turn(player, input)
       print_board
     end
 
@@ -19,27 +22,37 @@ module Morris
 
     private
 
-    def turn(player)
-      puts "Player #{player}: "
+    def set_io_output(method, args = nil)
+      @io_output = if args
+                     @io.send(method, args)
+                   else
+                     @io.send(method)
+                   end
+    end
+
+    def turn(player, input)
+      set_io_output(:player_input, player)
       move = input.get_position
       @game.place_piece(player, move)
       @win = check_for_win(player)
     rescue PlacementError => e
-      print_board
-      puts e
-      puts 'Try again'
+      error_action(e)
       turn(player)
     end
 
     def remove_piece(player)
-      puts "Player #{player}, You've placed 3 pieces, which would you like to move?"
+      @io.limit_reached(player)
       move = input.get_position
       @game.remove_piece(player, move)
     rescue PlacementError => e
-      print_board
-      puts e
-      puts 'Try again'
+      error_action(e)
       remove_piece(player)
+    end
+
+    def error_action(e)
+      print_board
+      set_io_output(:print_errors, e)
+      set_io_output(:try_again)
     end
 
     def piece_limit_reached?(player)
@@ -48,13 +61,9 @@ module Morris
 
     def check_for_win(player)
       return false unless @game.check_for_win
-      puts "Player #{player} wins!"
-      puts 'Game Over'
+      set_io_output(:print_win, player)
+      set_io_output(:game_over)
       true
-    end
-
-    def input
-      PositionParser.new(STDIN)
     end
   end
 end
